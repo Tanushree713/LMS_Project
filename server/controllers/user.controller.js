@@ -42,6 +42,8 @@ const register = async (req, res, next) => {
 
    console.log('File upload >', JSON.stringify(req.file))
    if(req.file) {
+    
+    console.log(req.file);
        try {
         const result = await cloudinary.v2.uploader.upload(req.file.path, {
            folder: 'lms',
