@@ -1,68 +1,58 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
-
 import axiosInstance from "../../Helpers/axiosInstance";
+
 const initialState = {
-    courseList: []
+    courseData: []
 }
 
-export const createNewCourse = createAsyncThunk('course/create' , async(data) => {
-    try{
-
-        let formData = new FormData() ;
-        formData.append('title' , data?.title) ;
-        formData.append('description' , data?.description) ;
-        formData.append('createdBy' , data?.createdBy) ;
-        formData.append('category' , data?.category) ;
-        formData.append('thumbnail' , data?.thumbnail) ;
-
-        const response = axiosInstance.post('/courses' , formData);
-        toast.promise(response , {
-            loading:"Creating new courses" ,
-            success: "Course  created SuccessFully" ,
-            error: "Failed to create course" 
-        })
-         return (await response).data ;
-
-    }
-    catch(error){
-        toast.error(error?.response?.data?.message) ;
-    }
-});
-
-
-
-export const getAllCourses = createAsyncThunk("/course/getAllCourses", async (data) => {
+export const getAllCourses = createAsyncThunk("/course/get", async () => {
     try {
-        const response = axiosInstance.get("/courses", data);
+        const response = axiosInstance.get("/courses")
         toast.promise(response, {
-            loading: 'Wait! fetching all courses',
-            success: (data) => {
-                return data?.data?.message;
-            },
-            error: 'Failed to load courses'
-        });
-        return (await response).data.courses;
-    } catch(error) {
-        console.log(error);
-        toast.error(error?.response?.data?.message);
+            loading: "loading course data",
+            success: "Courses loaded successfully",
+            error: "Failed to get the courses"
+        })
+        return (await response).data.courses
+    } catch (error) {
+        toast.error(error?.response?.data?.message)
+    }
+}) 
+
+export const createNewCourse = createAsyncThunk("/course/create", async (data) => {
+    try {
+        let formData = new FormData();
+        formData.append("title", data?.title)
+        formData.append("description", data?.description)
+        formData.append("category", data?.category)
+        formData.append("createdBy", data?.createdBy)
+        formData.append("thumbnail", data?.thumbnail)
+
+        const response = axiosInstance.post("/courses", formData)
+        toast.promise(response, {
+            loading: "Creating new course",
+            success: "Course created successfully",
+            error: "Failed to create course"
+        })
+
+        return (await response).data
+    } catch (error) {
+        toast.error(error?.response?.data?.message)
     }
 })
 
-
-
-const CourseSlice = createSlice({
-    name: "course",
+const courseSlice = createSlice({
+    name: "courses",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getAllCourses.fulfilled, (state, action) => {
-            console.log(action.payload)
-            if(action?.payload) {
-                state.courseList = [...action.payload];
+            if(action.payload) {
+            state.courseData = [...action.payload]
             }
         })
     }
 });
 
-export default CourseSlice.reducer;
+export default courseSlice.reducer;

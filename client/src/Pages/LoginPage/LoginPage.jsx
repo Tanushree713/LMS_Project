@@ -1,105 +1,98 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
+import HomeLayout from "../../Layouts/HomeLayouts/HomeLayout";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-hot-toast';
+import { login} from "../../Redux/Slices/AuthSlice";
 
-import { isEmail } from "../../Helpers/RegexMatcher";
-import HomeLayout from "../../Layouts/HomeLayouts/HomeLayout";
-import { login } from "../../Redux/Slices/AuthSlice";
+function Signup() {
 
-function Signin() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+   const dispatch = useDispatch()
+   const navigate = useNavigate()
+   
+   const [previewImage, setPreviewImage] = useState("")
 
-  const [signinDetails, setSigninDetails] = useState({
-    email: "",
-    password: "",
-  });
-
-  function handleUserInput(e) {
-    const { name, value } = e.target;
-    setSigninDetails({
-      ...signinDetails,
-      [name]: value,
-    });
-  }
-
-  async function onFormSubmit(e) {
-    e.preventDefault();
-    console.log(signinDetails);
-    if (!signinDetails.email || !signinDetails.password) {
-      toast.error("Please fill all the details");
-      return;
-    }
-    if (!isEmail(signinDetails.email)) {
-      toast.error("Invalid email provided");
-      return;
-    }
-
-    const response = await dispatch(login(signinDetails));
-    console.log(response);
-    if (response?.payload?.data) {
-      navigate("/");
-    }
-    setSigninDetails({
+   const [loginData, setLoginData] = useState({
       email: "",
       password: "",
-    });
-  }
+   })
 
-  return (
-    <HomeLayout>
-      <div className="flex overflow-x-auto items-center justify-center h-[100vh]">
-        <form
-          onSubmit={onFormSubmit}
-          noValidate
-          className="flex flex-col justify-center gap-5 rounded-lg p-4 text-white shadow-[0_0_10px_black] w-80"
-        >
-          <h1 className="text-2xl text-center font-bold">Login Page</h1>
+   function handleUserInput(e) {
+      const {name, value} = e.target;
+      setLoginData({
+         ...loginData,
+         [name]: value
+      })
+   }
 
-          <div className="flex flex-col gap-1">
-            <label htmlFor="email" className="font-semibold">
-              Email
-            </label>
-            <input
-              onChange={handleUserInput}
-              value={signinDetails.email}
-              required
-              type="text"
-              name="email"
-              className="bg-transparent px-2 py-1 border"
-              placeholder="enter your Email..."
-              id="email"
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="font-semibold">
-              Password
-            </label>
-            <input
-              required
-              onChange={handleUserInput}
-              value={signinDetails.password}
-              type="password"
-              name="password"
-              className="bg-transparent px-2 py-1 border"
-              placeholder="enter your Password..."
-              id="password"
-            />
-          </div>
-          <button className="mt-2 bg-yellow-800 hover:bg-yellow-500 transition-all ease-in-out duration-300 cursor-pointer py-2 font-semibold text-lg">
-            Sign In
-          </button>
-          <p className="text-center">
-            Donot have an account ?{" "}
-            <Link to="/signup" className="cusror-pointer text-accent">
-              Signup
-            </Link>
-          </p>
+   
+
+   async function onLogin(event) {
+      event.preventDefault();
+      if(!loginData.email || !loginData.password ) {
+         toast.error("Please fill all the details")
+         return;
+      }
+
+      //dispatch create account action
+      const response = await dispatch(login(loginData));
+
+      if(response?.payload?.success)
+        navigate("/")
+
+      setLoginData({
+         email: "",
+         password: "",
+      });
+   }
+
+   return(
+      <HomeLayout>
+        <div className="flex items-center justify-center h-[100vh]">
+        <form noValidate onSubmit={onLogin} className="flex flex-col justify-center gap-3 rounded-lg p-4 text-white w-96 shadow-[0_0_10px_black]">
+            <h1 className="text-center text-2xl font-bold">Login Page</h1>
+            
+           <div className="flex flex-col gap-1">
+              <label htmlFor="email" className="font-semibold">Email</label>
+              <input 
+                type="email"
+                required
+                id="email"
+                name="email"
+                placeholder="Enter your email .."
+                className="bg-transparent px-2 py-1 border "
+                onChange={handleUserInput}
+                value={loginData.email}
+              />
+           </div>
+
+           <div className="flex flex-col gap-1">
+              <label htmlFor="password" className="font-semibold">Password</label>
+              <input 
+                type="password"
+                required
+                id="password"
+                name="password"
+                placeholder="Enter your password .."
+                className="bg-transparent px-2 py-1 border "
+                onChange={handleUserInput}
+                value={loginData.password}
+              />
+           </div>
+
+           <button type="submit" className="mt-2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer">
+             Login
+           </button>
+        
+        <p>
+          Donot have an account ? <Link to="/signup" className="link text-accent cursor-pointer">Signup</Link>
+        </p>
+
         </form>
-      </div>
-    </HomeLayout>
-  );
+
+        </div>
+      </HomeLayout>
+   )
 }
 
-export default Signin;
+export default Signup;
