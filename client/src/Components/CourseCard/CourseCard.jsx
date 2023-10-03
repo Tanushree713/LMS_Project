@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom"
 function CourseCard({data}) {
     const navigate = useNavigate();
 
+    console.log("COURSECARD" , data) ;
     return (
         <div
             onClick={() => navigate("/course/description", { state: {...data}})}
-            className="text-white w-[22rem] h-[430px] shadow-lg rounded-lg cursor-pointer group overflow-hidden bg-zinc-700"
+            className="text-white w-[22rem] h-[430px] shadow-lg rounded-lg cursor-pointer group overflow-hidden bg-zinc-800"
         >
             <div className="overflow-hidden">
                 <img 

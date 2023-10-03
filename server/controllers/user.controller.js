@@ -31,7 +31,7 @@ const register = async (req, res, next) => {
          password,
          avatar:{
             public_id: email,
-            secure_url: 'https://res.cloudinary.com/du9jzqlpt/image/upload/v16746473'
+            secure_url: 'https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o='
          }
    })
 
@@ -254,10 +254,10 @@ const changePassword = async (req, res) => {
     })
 } 
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res ,next) => {
    const { fullName } = req.body;
-   const {id} = req.user.id
-
+   const {id} = req.user ;
+   console.log("id" , req.user) ;
    const user = await User.findById(id);
 
    if(!user) {
@@ -266,9 +266,9 @@ const updateUser = async (req, res) => {
     )
    }
 
-   if (req.fullName) {
+  
       user.fullName = fullName
-   }
+  
 
    if (req.file) {
       await cloudinary.v2.uploader.destroy(user.avatar.public_id)

@@ -28,7 +28,7 @@ function App() {
         <Route path="/login" element={<Signin />} />
         <Route path="/course/descriptions" element={<CourseDescriptions/>} />
         <Route element={<RequireAuth allowedRoles={["ADMIN" , "USER"]}/>}>
-        <Route path="/user/profile"  element={Profile}  />
+        <Route path="/user/profile"  element={<Profile />}  />
         <Route path='/user/editprofile' element={<EditProfile />} />
         </Route>
         <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>}>

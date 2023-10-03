@@ -11,12 +11,16 @@ import { getUserData, updateProfile } from "../../Redux/Slices/AuthSlice";
 function EditProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const [data, setData] = useState({
     previewImage: "",
     fullName: "",
     avatar: undefined,
-    userId: useSelector((state) => state?.auth?.data?._id),
+    userId: useSelector((state) => state?.auth?.data?._id) 
   });
+    
+
+  
 
   function handleImageUpload(e) {
     e.preventDefault();

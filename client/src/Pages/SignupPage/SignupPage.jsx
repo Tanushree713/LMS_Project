@@ -83,7 +83,7 @@ function Signup() {
      const response = await dispatch(createAccount(formData));
 
      if(response?.payload?.success)
-       navigate("/")
+       navigate("/login")
 
      setSignupData({
         fullName: "",

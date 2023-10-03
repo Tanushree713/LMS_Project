@@ -9,7 +9,7 @@ function CourseList() {
 
     const dispatch = useDispatch();
 
-    const { courseList } = useSelector((state) => state.course);
+    const {courseData} = useSelector((state) => state.course);
 
     async function loadCourses() {
         await dispatch(getAllCourses());
@@ -27,7 +27,7 @@ function CourseList() {
                     <span className="font-bold text-yellow-500">Industry experts</span>
                 </h1>
                 <div className="mb-10 flex flex-wrap gap-14">
-                    {courseList?.map((element) => {
+                    {courseData?.map((element) => {
                         return <CourseCard key={element._id} data={element} />
                     })}
                 </div>

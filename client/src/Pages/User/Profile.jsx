@@ -10,16 +10,18 @@ function Profile() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const userData = useSelector((state) => state?.auth?.data);
+    let userData = useSelector((state) => state?.auth?.data);
+    //   userData = JSON.parse(userData) ;
 
-    // async function handleCancellation() {
-    //     toast("Initiating cancellation");
-    //     await dispatch(cancelCourseBundle());
-    //     await dispatch(getUserData());
-    //     toast.success("Cancellation completed!");
-    //     navigate("/");
+    async function handleCancellation() {
+        toast("Initiating cancellation");
+        // await dispatch(cancelCourseBundle());
+        await dispatch(getUserData());
+        toast.success("Cancellation completed!");
+        navigate("/");
 
-    // }
+    }
+    // console.log("USER DATA" , userData) ;
     return (
         <HomeLayout>
             <div className="min-h-[90vh] flex items-center justify-center">
@@ -52,7 +54,7 @@ function Profile() {
                         </Link>
                     </div>
                     {userData?.subscription?.status === "active" && (
-                        <button onClick='' className="w-full bg-red-600 hover:bg-red-500 transition-all ease-in-out duration-300 rounded-sm font-semibold py-2 cursor-pointer text-center">
+                        <button onClick={handleCancellation} className="w-full bg-red-600 hover:bg-red-500 transition-all ease-in-out duration-300 rounded-sm font-semibold py-2 cursor-pointer text-center">
                             Cancel Subscription
                         </button>
                     )}
