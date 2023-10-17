@@ -14,6 +14,7 @@ import Profile from "./Pages/User/Profile";
 import EditProfile from "./Pages/User/EditProfile";
 import Denied from './Pages/DeniedPage/Denied';
 import Checkout from "./Pages/Payment/Checkout";
+import Displaylectures from "./Pages/DashBoard/DisplayLectures";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/user/profile"  element={<Profile />}  />
         <Route path='/user/editprofile' element={<EditProfile />} />
         <Route path='/checkout' element={<Checkout />} />
+        <Route path="/course/displaylectures" element={<Displaylectures/>} />
         </Route>
         <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>}>
           <Route path="/course/create" element={<CreateCourse/>} />
