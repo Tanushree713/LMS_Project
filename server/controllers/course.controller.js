@@ -207,11 +207,51 @@ const addLectureToCourseById = async (req, res, next) => {
     })
 
 }
+
+const removeLectureFromCourse = async(req , res , next) => {
+        try {
+            const courseId = req.params.courseId; // Get the course ID from the request params.
+            const lectureId = req.params.lectureId; // Get the lecture ID from the request params.
+    
+            // Find the course by its ID.
+            const course = await Course.findById(courseId);
+    
+            if (!course) {
+                return next(new AppError('Course with the given ID does not exist', 404));
+            }
+    
+            // Find the index of the lecture to remove in the course's lectures array.
+            const lectureIndex = course.lectures.findIndex(lecture => lecture._id == lectureId);
+    
+            if (lectureIndex === -1) {
+                return next(new AppError('Lecture with the given ID does not exist in the course', 404));
+            }
+    
+            // Remove the lecture from the course's lectures array.
+            course.lectures.splice(lectureIndex, 1);
+    
+            // Update the number of lectures.
+            course.numberOfLectures = course.lectures.length;
+    
+            // Save the updated course.
+            await course.save();
+    
+            res.status(200).json({
+                success: true,
+                message: 'Lecture successfully removed from the course',
+                course,
+            });
+        } catch (e) {
+            return next(new AppError(e.message, 500));
+        }
+    }
+    
 export {
     getAllCourses,
     getLecturesByCourseId,
     createCourse,
     updateCourse,
     removeCourse,
-    addLectureToCourseById
+    addLectureToCourseById ,
+    removeLectureFromCourse
 }
