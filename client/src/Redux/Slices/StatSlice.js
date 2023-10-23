@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 
 import axiosInstance from "../../Helpers/axiosInstance";
 const initialState = {
-    allUsersCount: 0,
-    subscribedCount: 0
+    allUsersCount: 50,
+    subscribedCount: 14
 };
 
 export const getStatsData = createAsyncThunk("stats/get", async () => {

@@ -16,6 +16,7 @@ import Denied from './Pages/DeniedPage/Denied';
 import Checkout from "./Pages/Payment/Checkout";
 import Displaylectures from "./Pages/DashBoard/DisplayLectures";
 import AddLecture from "./Pages/DashBoard/AddedLectures";
+import AdminDashboard from "./Pages/DashBoard/AdminDashboard";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>}>
           <Route path="/course/create" element={<CreateCourse/>} />
           <Route path="/course/addlecture" element={<AddLecture />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard/>} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
