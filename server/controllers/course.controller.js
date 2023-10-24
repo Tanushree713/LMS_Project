@@ -217,7 +217,7 @@ const removeLectureFromCourse = async(req , res , next) => {
             const course = await Course.findById(courseId);
     
             if (!course) {
-                return next(new AppError('Course with the given ID does not exist', 404));
+                return next(new AppError('Course with the given ID does not exist', 400));
             }
     
             // Find the index of the lecture to remove in the course's lectures array.
@@ -245,6 +245,31 @@ const removeLectureFromCourse = async(req , res , next) => {
             return next(new AppError(e.message, 500));
         }
     }
+
+    // const deleteCourseById = async (req ,res ,next) => {
+            
+      
+    //         try{
+    //             const {id} = req.params ;    
+    //             const course = await Course.findById(id) ;
+
+    //             if(!course) {
+    //                 return next( new AppError('Course wuth given id does not exist ' , 404))
+    //             }  
+                
+    //             await course.remove() ;
+
+    //             res.status(200).json({
+    //                 success: true ,
+    //                 message:'Course deleted ',
+    //                 course: null 
+    //             })
+
+    //         } catch(error){
+    //             return new AppError(error.message , 500) ;
+    //         }  
+              
+    // };
     
 export {
     getAllCourses,
@@ -253,5 +278,5 @@ export {
     updateCourse,
     removeCourse,
     addLectureToCourseById ,
-    removeLectureFromCourse
+    removeLectureFromCourse ,
 }

@@ -168,7 +168,7 @@ function AdminDashboard() {
 
           <table className="table overflow-x-scroll">
             <thead>
-              <tr>
+              <tr className="text-gray-400">
                 <th>S No</th>
                 <th>Course Title</th>
                 <th>Course Category</th>
